@@ -1,6 +1,10 @@
 # Interview Code Challenges
 Here you will find some different code challenges options for interviewing at GuideSmiths.
 
+## Java tests
+1. [Implement the martian robots game](/java/martian-robots/instructions.md)
+2.  [Implement the tennis score game](/java/tennis-score/instructions.md)
+
 ## Node tests
 1. [Implement the martian robots game](/node/martian-robots/instructions.md)
 2.  [Implement the tennis score game](/node/tennis-score/instructions.md)
