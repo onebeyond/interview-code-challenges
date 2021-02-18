@@ -10,14 +10,14 @@ The dataset is a CSV file located [here](./dataset.7z)
 ## The output
 You should provide a report with two pages:
 
-1. A dashboard view with the following:
-    a. Total cases
-    b. Total deaths
-    c. Total % increase over last month
-    d. A graph showing the cases trend in months
-    e. A graph showing the deaths trend in months
-    f. Treemap of countries ordered by deaths
-2. A report view showing the cases and deaths by month with filtering and drill-down capabilities (free design)
+* A dashboard view with the following:
+    1. Total cases
+    2. Total deaths
+    3. Total % increase over last month
+    4. A graph showing the cases trend in months
+    5. A graph showing the deaths trend in months
+    6. Treemap of countries ordered by deaths
+* A report view showing the cases and deaths by month with filtering and drill-down capabilities (free design)
 
 ### Filters
 You should allow the following filters:
