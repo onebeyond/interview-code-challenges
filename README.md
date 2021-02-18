@@ -11,7 +11,10 @@ Here you will find some different code challenges options for interviewing at Gu
 
 ## React code tests
 1. [Build a phone catalogue](/react/phone-catalogue/instructions.md)
-2. [Build an app around a mysterious API](/react/misterious-api/instructions.md)
+2. [Build an app around a mysterious API](/react/mysterious-api/instructions.md)
 
 ## .NET code tests
 1. [Implement the martian robots game](/.NET/martian-robots/instructions.md)
+
+## Data Visualization tests
+1. [Implement a COVID-19 dashboard](/data/covid/instructions.md)
