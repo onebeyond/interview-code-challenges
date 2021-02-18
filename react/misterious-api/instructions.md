@@ -1,4 +1,4 @@
-# Misterious API
+# Mysterious API
 To complete this code challenge, you need to be able to run Docker in your local machine. Everything should be clear from this file, however if you have any questions, please refer them to your Hiring Manager.
 
 ## Description
