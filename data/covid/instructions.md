@@ -17,7 +17,7 @@ You should provide a report with two pages:
     4. A graph showing the cases trend in months
     5. A graph showing the deaths trend in months
     6. Treemap of countries ordered by deaths
-* A report view showing the cases and deaths by month with filtering and drill-down capabilities (free design)
+* A report view showing the cases and deaths by month with filtering and drill-through capabilities (free design)
 
 ### Filters
 You should allow the following filters:
