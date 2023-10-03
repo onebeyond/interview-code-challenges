@@ -11,7 +11,7 @@ Here you will find some different code challenges options for interviewing at On
 
 ## .NET code tests
 1. [Implement the martian robots game](/.NET/martian-robots/instructions.md)
-2. [Mobile Library Application](/.NET/library/readme.md)
+2. [Mobile Library Application](/.NET/library/README.md)
 
 ## Java tests
 1. [Implement the martian robots game](/java/martian-robots/instructions.md)
