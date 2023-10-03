@@ -1,5 +1,5 @@
 # Interview Code Challenges
-Here you will find some different code challenges options for interviewing at GuideSmiths.
+Here you will find some different code challenges options for interviewing at One Beyond.
 
 ## Java tests
 1. [Implement the martian robots game](/java/martian-robots/instructions.md)
