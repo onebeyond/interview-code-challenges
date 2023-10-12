@@ -10,8 +10,8 @@ Here you will find some different code challenges options for interviewing at On
 2. [Build an app around a mysterious API](/react/mysterious-api/instructions.md)
 
 ## .NET code tests
-1. [Implement the martian robots game](/.NET/martian-robots/instructions.md)
-2. [Mobile Library Application](/.NET/library/README.md)
+1. [.net Engineer - Library API functionality](/.NET/library/README.md#net-engineer-challenge)
+2. [Mobile Engineer - Mobile Library Application](/.NET/library/README.md#mobile-engineer-challenge)
 
 ## Java tests
 1. [Implement the martian robots game](/java/martian-robots/instructions.md)
