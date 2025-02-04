@@ -1,5 +1,5 @@
 # Library Coding Challenges
-This project contains a basic API for a fictional library. The library has a catalogue which is made up of a stock of books. It is a .net 7 web api project, using an in memory database - if you want to add additional test data, look at SeedData.cs.
+This project contains a basic API for a fictional library. The library has a catalogue which is made up of a stock of books. It is a .net 8 web api project, using an in memory database - if you want to add additional test data, look at SeedData.cs.
 
 Each book stock record in the catalogue has an associated Book record, and if currently "On Loan" has a loan end date and an associated "Borrower"
 It is possible via the API to retrieve all book stock records in the Catalogue, or to search by Author Name and/or Book Title. Both searches use a Contains search on the relevant Author/Book attributes.
