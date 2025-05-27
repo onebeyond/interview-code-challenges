@@ -29,3 +29,77 @@ $bookStocks = [
 // Fines and reservations (empty arrays to start)
 $fines = [];
 $reservations = [];
+
+// 
+
+function maxId($a) {
+    return array_reduce(fn($c, $o) => $c > $o->id ? $c : $o->id,$a);
+}
+
+function book($bookId) {
+    return array_first(array_filter(fn($o) => $bookId==$o->bookId,$books));
+}
+
+function bookList() {
+    return array_map(function($o) {
+        $book = book($o->bookId);
+        return ['title' => $book->title, 'isOnLoan'=>$o->isOnLoan,'loanEndDate'=>$o->loanEndDate,'borrowerId'=>$o->borrowerId];
+    },$bookStocks);
+}
+
+function fineAmount($bookStock) {
+    // TODO calculate the fine amount
+}
+
+function fineDetails($bookStock) {
+    // TODO fine details
+}
+
+function returnBook($bookId) {
+    $bookStock = array_first(array_filter(fn($o) => $bookId ==$o->bookId, $bookStocks));
+    $bookStocks = array_filter(fn($o) => $o->$bookId != $bookId,$bookStocks);
+
+    if (strtotime($bookStock->loadEndDate) < strtotime(date('now'))) {
+        return new Fine($id,$bookStock->borrowerId,fineAmount($bookStock), fineDetails($bookStock));
+    } else {
+        return [];
+    }
+}
+
+function reservation($bookId, $borrowerId) {
+    $bookReservations = array_filter(
+        fn($o) => $o->bookId == $bookId
+        ,$reservations
+    );
+
+    if (count($bookReservations)) {
+        $id = maxId($reservations) + 1;
+        $reservation = new Reservation($id, $bookId, $borrowerId, date('now'));
+        $reservations[]=$reservation;
+        return [];
+    }
+
+    return NULL;
+}
+
+function reservationStatus($bookId) {
+    $available = true;
+    $reservedAt = NULL;
+
+    $bookReservations = array_filter(
+        fn($o) => $o->$bookId == $bookId
+        ,$reservations
+    );
+
+    if (count($bookReservations)) {
+        $available = false;
+        $reservedAt = array_reduce(
+            fn($v, $o) => (strtotime($o->reservedAt) > strtotime($v)) ? $o->reservedAt : $v 
+            ,$bookReservations);
+    }
+
+    return [
+        'available' => $available,
+        'reservedAt' => $reservedAt
+    ];
+}
