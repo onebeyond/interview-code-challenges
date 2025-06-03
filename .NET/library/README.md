@@ -24,7 +24,7 @@ Extend the existing API to add the following functionality:
 
 
 # Mobile Engineer Challenge
-Implement a mobile application using either Xamarin or MAUI that provides the following functionality
+Implement a mobile application using MAUI that provides the following functionality
 1.	Simple login matching on Borrower Name and Email Address (the library system provider has not heard of security!)
 2.	Provide a view of the catalogue, this should only show one entry for each unique book. This should show at least the author name, title of the book, format and ISBN, along with the total number of copies of the book in the libraries catalogue.
 3.	For any books allow the user to add to a wishlist. The wishlist should be maintained in app and users can add/remove books from it. 
