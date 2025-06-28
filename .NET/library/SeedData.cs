@@ -76,11 +76,26 @@ namespace OneBeyondApi
                 LoanEndDate = DateTime.Now.Date.AddDays(7)
             };
 
+            var bookOnLoanWithReservation = new BookStock
+            {
+                Book = agileBook,
+                OnLoanTo = daveSmith,
+                LoanEndDate = DateTime.Now.Date.AddDays(3)
+            };
+
+            var reservationforBook1 = new Loan
+            {
+                BookStock = bookOnLoanWithReservation,
+                Borrower = daveSmith,
+                LoanStartDate = DateTime.Now.Date.AddDays(3),
+                LoanEndDate = DateTime.Now.Date.AddDays(10)
+            };
+
             var rustBookStock = new BookStock
             {
                 Book = rustBook,
-                OnLoanTo = null,
-                LoanEndDate = null
+                OnLoanTo = daveSmith,
+                LoanEndDate = DateTime.Now.Date.AddDays(-3)
             };
 
             using (var context = new LibraryContext())
@@ -101,6 +116,9 @@ namespace OneBeyondApi
                 context.Catalogue.Add(bookNotOnLoan);
                 context.Catalogue.Add(bookOnLoanUntilNextWeek);
                 context.Catalogue.Add(rustBookStock);
+                context.Catalogue.Add(bookOnLoanWithReservation);
+
+                context.Loans.Add(reservationforBook1);
 
                 context.SaveChanges();
 
