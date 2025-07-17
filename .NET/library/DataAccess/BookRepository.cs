@@ -1,30 +1,22 @@
-﻿using OneBeyondApi.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using OneBeyondApi.DataAccess.Interfaces;
+using OneBeyondApi.Model;
 
-namespace OneBeyondApi.DataAccess
+namespace OneBeyondApi.DataAccess;
+
+public class BookRepository(LibraryContext context) : IBookRepository
 {
-    public class BookRepository : IBookRepository
+    public List<Book> GetBooks()
     {
-        public BookRepository()
-        {
-        }
-        public List<Book> GetBooks()
-        {
-            using (var context = new LibraryContext())
-            {
-                var list = context.Books
-                    .ToList();
-                return list;
-            }
-        }
+        return context.Books
+            .Include(book => book.Author)
+            .ToList();
+    }
 
-        public Guid AddBook(Book book)
-        {
-            using (var context = new LibraryContext())
-            {
-                context.Books.Add(book);
-                context.SaveChanges();
-                return book.Id;
-            }
-        }
+    public Guid AddBook(Book book)
+    {
+        context.Books.Add(book);
+        context.SaveChanges();
+        return book.Id;
     }
 }

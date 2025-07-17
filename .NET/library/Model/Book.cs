@@ -1,11 +1,11 @@
-﻿namespace OneBeyondApi.Model
+﻿namespace OneBeyondApi.Model;
+
+public class Book
 {
-    public class Book
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Author Author { get; set; }
-        public BookFormat Format { get; set; }
-        public string ISBN { get; set; }
-    }
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public Guid AuthorId { get; set; }
+    public Author Author { get; set; }
+    public BookFormat Format { get; set; }
+    public string ISBN { get; set; }
 }

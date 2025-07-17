@@ -1,30 +1,19 @@
-﻿using OneBeyondApi.Model;
+﻿using OneBeyondApi.DataAccess.Interfaces;
+using OneBeyondApi.Model;
 
-namespace OneBeyondApi.DataAccess
+namespace OneBeyondApi.DataAccess;
+
+public class AuthorRepository(LibraryContext context) : IAuthorRepository
 {
-    public class AuthorRepository : IAuthorRepository
+    public List<Author> GetAuthors()
     {
-        public AuthorRepository()
-        {
-        }
-        public List<Author> GetAuthors()
-        {
-            using (var context = new LibraryContext())
-            {
-                var list = context.Authors
-                    .ToList();
-                return list;
-            }
-        }
+        return context.Authors.ToList();
+    }
 
-        public Guid AddAuthor(Author author)
-        {
-            using (var context = new LibraryContext())
-            {
-                context.Authors.Add(author);
-                context.SaveChanges();
-                return author.Id;
-            }
-        }
+    public Guid AddAuthor(Author author)
+    {
+        context.Authors.Add(author);
+        context.SaveChanges();
+        return author.Id;
     }
 }

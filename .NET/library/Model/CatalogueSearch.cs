@@ -1,8 +1,7 @@
-﻿namespace OneBeyondApi.Model
+﻿namespace OneBeyondApi.Model;
+
+public class CatalogueSearch
 {
-    public class CatalogueSearch
-    {
-        public string BookName { get; set; }
-        public string Author { get; set; }
-    }
+    public string BookName { get; set; }
+    public string Author { get; set; }
 }

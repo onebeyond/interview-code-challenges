@@ -1,35 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
-using OneBeyondApi.DataAccess;
+using OneBeyondApi.DataAccess.Interfaces;
 using OneBeyondApi.Model;
-using System.Collections;
 
-namespace OneBeyondApi.Controllers
+namespace OneBeyondApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class BookController(ILogger<BookController> logger, IBookRepository bookRepository) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class BookController : ControllerBase
+    [HttpGet]
+    [Route("GetBooks")]
+    public IList<Book> Get()
     {
-        private readonly ILogger<BookController> _logger;
-        private readonly IBookRepository _bookRepository;
+        return bookRepository.GetBooks();
+    }
 
-        public BookController(ILogger<BookController> logger, IBookRepository bookRepository)
-        {
-            _logger = logger;
-            _bookRepository = bookRepository;   
-        }
-
-        [HttpGet]
-        [Route("GetBooks")]
-        public IList<Book> Get()
-        {
-            return _bookRepository.GetBooks();
-        }
-
-        [HttpPost]
-        [Route("AddBook")]
-        public Guid Post(Book book)
-        {
-            return _bookRepository.AddBook(book);
-        }
+    [HttpPost]
+    [Route("AddBook")]
+    public Guid Post(Book book)
+    {
+        return bookRepository.AddBook(book);
     }
 }

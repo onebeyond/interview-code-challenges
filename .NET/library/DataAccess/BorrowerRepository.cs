@@ -1,30 +1,19 @@
-﻿using OneBeyondApi.Model;
+﻿using OneBeyondApi.DataAccess.Interfaces;
+using OneBeyondApi.Model;
 
-namespace OneBeyondApi.DataAccess
+namespace OneBeyondApi.DataAccess;
+
+public class BorrowerRepository(LibraryContext context) : IBorrowerRepository
 {
-    public class BorrowerRepository : IBorrowerRepository
+    public List<Borrower> GetBorrowers()
     {
-        public BorrowerRepository()
-        {
-        }
-        public List<Borrower> GetBorrowers()
-        {
-            using (var context = new LibraryContext())
-            {
-                var list = context.Borrowers
-                    .ToList();
-                return list;
-            }
-        }
+        return context.Borrowers.ToList();
+    }
 
-        public Guid AddBorrower(Borrower borrower)
-        {
-            using (var context = new LibraryContext())
-            {
-                context.Borrowers.Add(borrower);
-                context.SaveChanges();
-                return borrower.Id;
-            }
-        }
+    public Guid AddBorrower(Borrower borrower)
+    {
+        context.Borrowers.Add(borrower);
+        context.SaveChanges();
+        return borrower.Id;
     }
 }

@@ -1,35 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
-using OneBeyondApi.DataAccess;
+using OneBeyondApi.DataAccess.Interfaces;
 using OneBeyondApi.Model;
-using System.Collections;
 
-namespace OneBeyondApi.Controllers
+namespace OneBeyondApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class AuthorController(ILogger<AuthorController> logger, IAuthorRepository authorRepository) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthorController : ControllerBase
+    [HttpGet]
+    [Route("GetAuthors")]
+    public IList<Author> Get()
     {
-        private readonly ILogger<AuthorController> _logger;
-        private readonly IAuthorRepository _authorRepository;
+        return authorRepository.GetAuthors();
+    }
 
-        public AuthorController(ILogger<AuthorController> logger, IAuthorRepository authorRepository)
-        {
-            _logger = logger;
-            _authorRepository = authorRepository;   
-        }
-
-        [HttpGet]
-        [Route("GetAuthors")]
-        public IList<Author> Get()
-        {
-            return _authorRepository.GetAuthors();
-        }
-
-        [HttpPost]
-        [Route("AddAuthor")]
-        public Guid Post(Author author)
-        {
-            return _authorRepository.AddAuthor(author);
-        }
+    [HttpPost]
+    [Route("AddAuthor")]
+    public Guid Post(Author author)
+    {
+        return authorRepository.AddAuthor(author);
     }
 }

@@ -1,35 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
-using OneBeyondApi.DataAccess;
+using OneBeyondApi.DataAccess.Interfaces;
 using OneBeyondApi.Model;
-using System.Collections;
 
-namespace OneBeyondApi.Controllers
+namespace OneBeyondApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class CatalogueController(ILogger<CatalogueController> logger, ICatalogueRepository catalogueRepository) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CatalogueController : ControllerBase
+    [HttpGet]
+    [Route("GetCatalogue")]
+    public IList<BookStock> Get()
     {
-        private readonly ILogger<CatalogueController> _logger;
-        private readonly ICatalogueRepository _catalogueRepository;
+        return catalogueRepository.GetCatalogue();
+    }
 
-        public CatalogueController(ILogger<CatalogueController> logger, ICatalogueRepository catalogueRepository)
-        {
-            _logger = logger;
-            _catalogueRepository = catalogueRepository;   
-        }
-
-        [HttpGet]
-        [Route("GetCatalogue")]
-        public IList<BookStock> Get()
-        {
-            return _catalogueRepository.GetCatalogue();
-        }
-
-        [HttpPost]
-        [Route("SearchCatalogue")]
-        public IList<BookStock> Post(CatalogueSearch search)
-        {
-            return _catalogueRepository.SearchCatalogue(search);
-        }
+    [HttpPost]
+    [Route("SearchCatalogue")]
+    public IList<BookStock> Post(CatalogueSearch search)
+    {
+        return catalogueRepository.SearchCatalogue(search);
     }
 }
