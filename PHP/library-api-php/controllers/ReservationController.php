@@ -6,15 +6,21 @@ require_once __DIR__ . '/../models/Reservation.php';
 class ReservationController {
     // POST /reservations
     public function reserve() {
-        // TODO: Implement logic to reserve a book currently on loan.
-        header('Content-Type: application/json');
-        echo json_encode(['message' => 'Reserve book functionality to be implemented.']);
+        $reservation = reservation($_POST['bookId'], $_POST['borrowerId']);
+        if ($reservation === NULL) {
+            header('Content-Type: application/json');
+            header('Status: 404');
+        } else {
+            header('Content-Type: application/json');
+            header('Status: 200');
+            echo json_encode($reservation);    
+        }
     }
     
     // GET /reservations
     public function status() {
-        // TODO: Implement logic to return reservation status for a given borrower and book.
         header('Content-Type: application/json');
-        echo json_encode(['message' => 'Reservation status functionality to be implemented.']);
+        header('Status: 200');
+        echo json_encode(reservationStatus($_GET['bookId']));
     }
 }
