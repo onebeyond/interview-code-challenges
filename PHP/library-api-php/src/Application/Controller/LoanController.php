@@ -34,8 +34,15 @@ readonly class LoanController
             return;
         }
 
-        $this->loanService->returnBook((int) $data['bookStockId']);
+        $fine = $this->loanService->returnBook((int) $data['bookStockId']);
 
-        echo json_encode(['message' => 'Book returned successfully. Any applicable fines have been generated.']);
+        // Fetch the updated state
+        $updatedStock = $this->bookStockRepo->findById((int) $data['bookStockId']);
+
+        echo json_encode([
+            'message' => 'Book returned successfully.',
+            'fine_generated' => $fine,
+            'updated_stock' => $updatedStock,
+        ]);
     }
 }

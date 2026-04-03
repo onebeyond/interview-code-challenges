@@ -35,8 +35,10 @@ $bookStocks = [
     new BookStock(id: 4, bookId: 2, isOnLoan: true, loanEndDate: new DateTimeImmutable('+2 days'), borrowerId: 1)
 ];
 
-// Fines (keep empty to start)
-$fines = [];
+// Fines
+$fines = [
+    new Fine(id: '1', borrowerId: 2, amount: 15.00, details: 'Late return penalty for 10 days.')
+];
 
 // EDGE CASE: 2 people already in the queue for BookStock #4
 $reservations = [

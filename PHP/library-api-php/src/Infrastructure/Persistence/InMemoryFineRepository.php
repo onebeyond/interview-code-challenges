@@ -17,4 +17,17 @@ class InMemoryFineRepository implements FineRepositoryInterface
 
         $fines[] = $fine;
     }
+
+    public function findByBorrowerId(int $borrowerId): array
+    {
+        global $fines;
+
+        if (!is_array($fines)) {
+            return [];
+        }
+
+        return array_filter($fines, function (Fine $fine) use ($borrowerId) {
+            return $fine->borrowerId === $borrowerId;
+        });
+    }
 }

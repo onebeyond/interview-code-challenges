@@ -26,7 +26,6 @@ class DummyController
     #[Route('/crash', 'GET')]
     public function crashRoute(): void
     {
-        // Throwing a base Exception to trigger the \Throwable catch block (HTTP 500)
         throw new Exception('System crash simulated');
     }
 }

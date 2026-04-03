@@ -63,9 +63,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
-                    type: string
-                    example: "Book returned successfully."
+                  message: { type: string }
+                  fine_generated: { $ref: '#/components/schemas/Fine' }
+                  updated_stock: { $ref: '#/components/schemas/BookStock' }
         '400':
           description: Domain Rule Violation (e.g., book not on loan)
 
@@ -111,7 +111,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReservationStatus'
-
+                
 components:
   schemas:
     Book:

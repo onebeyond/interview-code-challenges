@@ -54,4 +54,43 @@ class FineRepositoryTest extends TestCase
 
         $this->assertCount(2, $fines);
     }
+
+    #[Test]
+    public function it_returns_an_empty_list_when_searching_borrower_fines_in_a_corrupted_state(): void
+    {
+        global $fines;
+
+        // GIVEN: The global "database" is null (Line 25-27 coverage)
+        /** @var mixed $fines */
+        $fines = null;
+
+        $result = $this->repo->findByBorrowerId(1);
+
+        // THEN: It should return an empty array, not a PHP error
+        $this->assertEmpty($result);
+    }
+
+    #[Test]
+    public function it_filters_and_returns_only_fines_belonging_to_the_requested_borrower(): void
+    {
+        global $fines;
+
+        // GIVEN: A set of fines for different borrowers
+        $fines = [
+            new Fine(id: 'f1', borrowerId: 42, amount: 10.00, details: 'Target fine'),
+            new Fine(id: 'f2', borrowerId: 99, amount: 5.00, details: 'Wrong borrower'),
+            new Fine(id: 'f3', borrowerId: 42, amount: 15.00, details: 'Target fine 2'),
+        ];
+
+        // WHEN: We query for borrower 42 (Line 29-31 coverage)
+        $result = $this->repo->findByBorrowerId(42);
+
+        // THEN: We should only get the 2 matching fines back
+        $this->assertCount(2, $result);
+
+        // Use array_values to reset keys for clean assertion
+        $flatResult = array_values($result);
+        $this->assertEquals('f1', $flatResult[0]->id);
+        $this->assertEquals('f3', $flatResult[1]->id);
+    }
 }

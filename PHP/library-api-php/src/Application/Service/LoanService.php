@@ -17,7 +17,7 @@ readonly class LoanService
     ) {
     }
 
-    public function returnBook(int $bookStockId): void
+    public function returnBook(int $bookStockId): ?Fine
     {
         $bookStock = $this->bookStockRepo->findById($bookStockId);
 
@@ -26,6 +26,7 @@ readonly class LoanService
         }
 
         $now = new DateTimeImmutable();
+        $fine = null;
 
         // Calculate fines if overdue
         if ($bookStock->loanEndDate !== null && $now > $bookStock->loanEndDate) {
@@ -54,5 +55,7 @@ readonly class LoanService
         $returnedStock = $bookStock->returnBook();
 
         $this->bookStockRepo->save($returnedStock);
+
+        return $fine;
     }
 }
