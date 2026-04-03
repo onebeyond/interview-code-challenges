@@ -1,29 +1,46 @@
 <?php
 
-// In-memory storage of data
+use App\Domain\Model\Author;
+use App\Domain\Model\Book;
+use App\Domain\Model\Borrower;
+use App\Domain\Model\BookStock;
+use App\Domain\Model\Reservation;
+use App\Domain\Model\Fine;
 
 // Sample authors
 $authors = [
-    new Author(1, 'Jane Austen'),
-    new Author(2, 'Mark Twain')
+    new Author(id: 1, name: 'Jane Austen'),
+    new Author(id: 2, name: 'Mark Twain')
 ];
 
 // Sample books
 $books = [
-    new Book(1, 'Pride and Prejudice', 1, 'Hardcover', '1111111111111'),
-    new Book(2, 'Adventures of Huckleberry Finn', 2, 'Paperback', '2222222222222')
+    new Book(id: 1, title: 'Pride and Prejudice', authorId: 1, format: 'Hardcover', isbn: '1111111111111'),
+    new Book(id: 2, title: 'Adventures of Huckleberry Finn', authorId: 2, format: 'Paperback', isbn: '2222222222222')
 ];
 
 // Sample borrowers
 $borrowers = [
-    new Borrower(1, 'Alice', 'alice@example.com'),
-    new Borrower(2, 'Bob', 'bob@example.com')
+    new Borrower(id: 1, name: 'Alice', email: 'alice@example.com'),
+    new Borrower(id: 2, name: 'Bob', email: 'bob@example.com')
 ];
 
 // Sample book stocks (assume book 1 is on loan)
 $bookStocks = [
-    new BookStock(1, 1, true, '2025-04-10', 1),
-    new BookStock(2, 2, false)
+    new BookStock(
+        id: 1, 
+        bookId: 1, 
+        isOnLoan: true, 
+        loanEndDate: new DateTimeImmutable('2025-04-10'), 
+        borrowerId: 1
+    ),
+    new BookStock(
+        id: 2, 
+        bookId: 2, 
+        isOnLoan: false, 
+        loanEndDate: null, 
+        borrowerId: null
+    )
 ];
 
 // Fines and reservations (empty arrays to start)
