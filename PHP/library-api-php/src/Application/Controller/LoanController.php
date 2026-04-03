@@ -25,7 +25,8 @@ readonly class LoanController
     public function returnBook(): void
     {
         // In a real app, this comes from the Request object. For the challenge, we simulate it.
-        $data = json_decode(file_get_contents('php://input'), true);
+        $payload = file_get_contents('php://input');
+        $data = json_decode((string) $payload, true);
 
         if (!isset($data['bookStockId'])) {
             http_response_code(400);

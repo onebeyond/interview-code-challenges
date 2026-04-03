@@ -8,6 +8,10 @@ if (!file_exists($cloverFile)) {
 }
 
 $xml = simplexml_load_file($cloverFile);
+if ($xml === false) {
+    echo "Error: Failed to parse coverage.clover XML.\n";
+    exit(1);
+}
 $metrics = $xml->project->metrics;
 $elements = (int) $metrics['elements'];
 $covered = (int) $metrics['coveredelements'];

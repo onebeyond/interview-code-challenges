@@ -32,6 +32,10 @@ readonly class LoanService
             $interval = $now->diff($bookStock->loanEndDate);
             $daysLate = $interval->days;
 
+            if ($bookStock->borrowerId === null) {
+                throw new \RuntimeException("Cannot process return: Book stock has no associated borrower.");
+            }
+
             if ($daysLate > 0) {
                 $fineAmount = $daysLate * $this->dailyFineRate;
 

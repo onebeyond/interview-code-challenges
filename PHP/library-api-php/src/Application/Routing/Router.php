@@ -7,6 +7,7 @@ use RuntimeException;
 
 class Router
 {
+    /** @var array<string, array{controller: object, method: string}> */
     private array $routes = [];
 
     public function registerController(object $controller): void

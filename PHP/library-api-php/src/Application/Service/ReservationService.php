@@ -35,6 +35,9 @@ readonly class ReservationService
         $this->reservationRepo->save($reservation);
     }
 
+    /**
+     * @return array{queue_length: int, estimated_availability: DateTimeImmutable}
+     */
     public function getReservationStatus(int $bookStockId): array
     {
         $bookStock = $this->bookStockRepo->findById($bookStockId);
