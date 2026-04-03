@@ -4,7 +4,7 @@ namespace App\Domain\Model;
 
 use DateTimeImmutable;
 
-readonly class BookStock 
+readonly class BookStock
 {
     public function __construct(
         public int $id,
@@ -12,12 +12,13 @@ readonly class BookStock
         public bool $isOnLoan = false,
         public ?DateTimeImmutable $loanEndDate = null,
         public ?int $borrowerId = null
-    ) {}
+    ) {
+    }
 
     /**
      * Domain logic belongs in the model. Returning a book generates a new immutable state.
      */
-    public function returnBook(): self 
+    public function returnBook(): self
     {
         return new self(
             id: $this->id,

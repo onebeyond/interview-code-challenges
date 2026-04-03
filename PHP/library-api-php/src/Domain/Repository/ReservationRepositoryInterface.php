@@ -4,10 +4,10 @@ namespace App\Domain\Repository;
 
 use App\Domain\Model\Reservation;
 
-interface ReservationRepositoryInterface 
+interface ReservationRepositoryInterface
 {
     public function save(Reservation $reservation): void;
-    
+
     /**
      * @return Reservation[]
      */

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-readonly class Book 
+readonly class Book
 {
     public function __construct(
         public int $id,
@@ -10,5 +10,6 @@ readonly class Book
         public int $authorId,
         public string $format,
         public string $isbn
-    ) {}
+    ) {
+    }
 }

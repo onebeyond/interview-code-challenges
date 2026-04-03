@@ -1,0 +1,7 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - src/Infrastructure/Persistence/ # Exclude global arrays from strict type checks

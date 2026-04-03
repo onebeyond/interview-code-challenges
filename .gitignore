@@ -1,3 +1,4 @@
 /PHP/library-api-php/.vscode
 /PHP/library-api-php/vendor
 /PHP/library-api-php/.phpunit.cache
+/PHP/library-api-php/.php-cs-fixer.cache

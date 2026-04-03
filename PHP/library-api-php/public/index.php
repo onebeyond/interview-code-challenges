@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Application\Controller\LoanController;
+use App\Application\Controller\ReservationController;
 use App\Application\Routing\Router;
+use App\Application\Service\LoanService;
+use App\Application\Service\ReservationService;
 use App\Infrastructure\Persistence\InMemoryBookStockRepository;
 use App\Infrastructure\Persistence\InMemoryFineRepository;
 use App\Infrastructure\Persistence\InMemoryReservationRepository;
-use App\Application\Service\LoanService;
-use App\Application\Service\ReservationService;
-use App\Application\Controller\LoanController;
-use App\Application\Controller\ReservationController;
 
 // 1. Initialize the Global State (The "Database")
 require_once __DIR__ . '/../data/data.php';
