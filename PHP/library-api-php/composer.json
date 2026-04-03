@@ -22,7 +22,7 @@
     "scripts": {
         "quality:format": "vendor/bin/php-cs-fixer fix",
         "quality:format-check": "vendor/bin/php-cs-fixer fix --dry-run --diff",
-        "quality:audit": "composer audit --no-dev",
+        "quality:audit": "composer audit",
         "quality:stan": "vendor/bin/phpstan analyse --configuration=phpstan.dist.neon --memory-limit=512M",
         "quality:test": "@php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-clover=coverage.clover",
         "quality:coverage": "php tests/enforce_coverage.php",

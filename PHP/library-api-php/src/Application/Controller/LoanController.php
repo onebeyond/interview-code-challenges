@@ -22,10 +22,9 @@ readonly class LoanController
     }
 
     #[Route('/loans/return', 'POST')]
-    public function returnBook(): void
+    public function returnBook(?string $payload = null): void
     {
-        // In a real app, this comes from the Request object. For the challenge, we simulate it.
-        $payload = file_get_contents('php://input');
+        $payload = $payload ?? file_get_contents('php://input');
         $data = json_decode((string) $payload, true);
 
         if (!isset($data['bookStockId'])) {

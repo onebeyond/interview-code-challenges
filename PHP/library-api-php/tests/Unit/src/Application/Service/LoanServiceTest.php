@@ -88,4 +88,63 @@ class LoanServiceTest extends TestCase
         // WHEN: The book is returned
         $this->loanService->returnBook(bookStockId: 2);
     }
+
+    #[Test]
+    public function it_fails_to_return_a_book_that_is_not_found_in_the_system(): void
+    {
+        // GIVEN: The repository cannot find the book
+        $this->bookStockRepo->method('findById')->willReturn(null);
+
+        // THEN: It should throw a RuntimeException
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Book stock is not currently on loan.');
+
+        // WHEN: We attempt to return it
+        $this->loanService->returnBook(bookStockId: 999);
+    }
+
+    #[Test]
+    public function it_prevents_returning_a_book_that_is_already_marked_as_available(): void
+    {
+        // GIVEN: A book that is already in the library (not on loan)
+        $bookStock = new BookStock(
+            id: 3,
+            bookId: 102,
+            isOnLoan: false,
+            loanEndDate: null,
+            borrowerId: null
+        );
+
+        $this->bookStockRepo->method('findById')->willReturn($bookStock);
+
+        // THEN: It should throw a RuntimeException
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Book stock is not currently on loan.');
+
+        // WHEN: We attempt to return it
+        $this->loanService->returnBook(bookStockId: 3);
+    }
+
+    #[Test]
+    public function it_guards_against_processing_overdue_returns_when_borrower_data_is_missing(): void
+    {
+        // GIVEN: An overdue book that somehow lost its borrowerId (Data Corruption Scenario)
+        $pastDate = (new \DateTimeImmutable())->modify('-10 days');
+        $corruptedStock = new BookStock(
+            id: 4,
+            bookId: 103,
+            isOnLoan: true,
+            loanEndDate: $pastDate,
+            borrowerId: null // The corruption
+        );
+
+        $this->bookStockRepo->method('findById')->willReturn($corruptedStock);
+
+        // THEN: It should throw a specific RuntimeException about the missing borrower
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Cannot process return: Book stock has no associated borrower.');
+
+        // WHEN: We attempt to return it
+        $this->loanService->returnBook(bookStockId: 4);
+    }
 }

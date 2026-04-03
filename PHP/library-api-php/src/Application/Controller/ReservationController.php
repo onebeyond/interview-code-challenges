@@ -13,9 +13,9 @@ readonly class ReservationController
     }
 
     #[Route('/reservations', 'POST')]
-    public function reserve(): void
+    public function reserve(?string $payload = null): void
     {
-        $payload = file_get_contents('php://input');
+        $payload = $payload ?? file_get_contents('php://input');
         $data = json_decode((string) $payload, true);
 
         if (!isset($data['bookStockId']) || !isset($data['borrowerId'])) {
