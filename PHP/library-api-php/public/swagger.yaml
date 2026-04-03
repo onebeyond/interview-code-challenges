@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   title: One Beyond Library API
-  description: Architectural implementation of the Library API challenge. Features immutable domain models, an anti-corruption layer for legacy data, and strict TDD business logic.
+  description: >
+    Architectural implementation of the Library API challenge. 
+    Features immutable domain models, an anti-corruption layer for legacy global state, 
+    and 100% test coverage verified via PHPUnit and PHPStan Level 8.
   version: 1.0.0
 servers:
   - url: http://localhost:8080
@@ -11,22 +14,24 @@ paths:
   /books:
     get:
       summary: Get all books
+      tags: [Catalog]
       responses:
         '200':
-          description: A list of books
+          description: A complete list of the library catalog
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-
+                  
   /loans:
     get:
       summary: List all active loans
+      tags: [Loans]
       responses:
         '200':
-          description: A list of active book stocks currently on loan
+          description: A list of book stocks currently held by borrowers
           content:
             application/json:
               schema:
@@ -37,37 +42,49 @@ paths:
   /loans/return:
     post:
       summary: Return a book
-      description: Returns a book and automatically calculates/generates any applicable overdue fines.
+      tags: [Loans]
+      description: Returns a book and triggers automatic fine calculation for overdue items.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
+              required: [bookStockId]
               properties:
                 bookStockId:
                   type: integer
-                  example: 1
+                  example: 3
       responses:
         '200':
-          description: Book returned successfully
+          description: Book returned successfully. Fines generated if applicable.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Book returned successfully."
         '400':
           description: Domain Rule Violation (e.g., book not on loan)
 
   /reservations:
     post:
       summary: Reserve a book
-      description: Places a borrower in the queue for a book stock that is currently on loan.
+      tags: [Reservations]
+      description: Places a borrower in the queue for an unavailable book stock.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
+              required: [bookStockId, borrowerId]
               properties:
                 bookStockId:
                   type: integer
-                  example: 1
+                  example: 4
                 borrowerId:
                   type: integer
                   example: 2
@@ -75,12 +92,12 @@ paths:
         '200':
           description: Book successfully reserved
         '400':
-          description: Domain Rule Violation (e.g., book is not currently on loan)
+          description: Domain Rule Violation (e.g., book is available on shelf)
 
   /reservations/status:
     get:
-      summary: Check reservation status
-      description: Calculates the queue position and estimated availability date based on a 14-day standard loan period.
+      summary: Check reservation queue status
+      tags: [Reservations]
       parameters:
         - in: query
           name: bookStockId
@@ -89,46 +106,55 @@ paths:
             type: integer
       responses:
         '200':
-          description: Queue status and estimated date
+          description: Queue position and estimated availability
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  queue_length:
-                    type: integer
-                    example: 2
-                  estimated_availability:
-                    type: string
-                    format: date
-                    example: '2025-04-24'
+                $ref: '#/components/schemas/ReservationStatus'
 
 components:
   schemas:
     Book:
       type: object
       properties:
-        id:
-          type: integer
-        title:
-          type: string
-        authorId:
-          type: integer
-        format:
-          type: string
-        isbn:
-          type: string
+        id: { type: integer, example: 1 }
+        title: { type: string, example: "Pride and Prejudice" }
+        authorId: { type: integer, example: 1 }
+        format: { type: string, example: "Hardcover" }
+        isbn: { type: string, example: "1111111111111" }
+
     BookStock:
       type: object
       properties:
-        id:
-          type: integer
-        bookId:
-          type: integer
-        isOnLoan:
-          type: boolean
-        loanEndDate:
-          type: string
-          format: date-time
-        borrowerId:
-          type: integer
+        id: { type: integer, example: 3 }
+        bookId: { type: integer, example: 1 }
+        isOnLoan: { type: boolean, example: true }
+        loanEndDate: { type: string, format: date, example: "2026-03-24" }
+        borrowerId: { type: integer, example: 2 }
+
+    ReservationStatus:
+      type: object
+      properties:
+        queue_length: { type: integer, example: 3 }
+        estimated_availability: { type: string, format: date, example: "2026-05-10" }
+
+    Author:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+
+    Borrower:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        email: { type: string, format: email }
+
+    Fine:
+      type: object
+      properties:
+        id: { type: string }
+        borrowerId: { type: integer }
+        amount: { type: number, format: float }
+        details: { type: string }

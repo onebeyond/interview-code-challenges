@@ -2,11 +2,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Application\Controller\BookController;
 use App\Application\Controller\LoanController;
 use App\Application\Controller\ReservationController;
 use App\Application\Routing\Router;
 use App\Application\Service\LoanService;
 use App\Application\Service\ReservationService;
+use App\Infrastructure\Persistence\InMemoryBookRepository;
 use App\Infrastructure\Persistence\InMemoryBookStockRepository;
 use App\Infrastructure\Persistence\InMemoryFineRepository;
 use App\Infrastructure\Persistence\InMemoryReservationRepository;
@@ -15,6 +17,7 @@ use App\Infrastructure\Persistence\InMemoryReservationRepository;
 require_once __DIR__ . '/../data/data.php';
 
 // 2. Instantiate Repositories
+$bookRepo = new InMemoryBookRepository();
 $bookStockRepo = new InMemoryBookStockRepository();
 $fineRepo = new InMemoryFineRepository();
 $reservationRepo = new InMemoryReservationRepository();
@@ -24,11 +27,13 @@ $loanService = new LoanService($bookStockRepo, $fineRepo, 1.50);
 $reservationService = new ReservationService($bookStockRepo, $reservationRepo, 14);
 
 // 4. Instantiate Controllers
+$bookController = new BookController($bookRepo);
 $loanController = new LoanController($loanService, $bookStockRepo);
 $reservationController = new ReservationController($reservationService);
 
 // 5. Boot the Router and Dispatch
 $router = new Router();
+$router->registerController($bookController);
 $router->registerController($loanController);
 $router->registerController($reservationController);
 

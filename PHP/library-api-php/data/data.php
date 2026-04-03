@@ -25,8 +25,7 @@ $borrowers = [
     new Borrower(id: 2, name: 'Bob', email: 'bob@example.com')
 ];
 
-// Sample book stocks (assume book 1 is on loan)
-// Sample book stocks with EDGE CASES
+// Sample book stocks
 $bookStocks = [
     new BookStock(id: 1, bookId: 1, isOnLoan: true, loanEndDate: new DateTimeImmutable('2025-04-10'), borrowerId: 1),
     new BookStock(id: 2, bookId: 2, isOnLoan: false, loanEndDate: null, borrowerId: null),
