@@ -1,29 +1,34 @@
 <?php
 
-require 'data/data.php';
-require 'controllers/BookController.php';
-require 'controllers/LoanController.php';
-require 'controllers/ReservationController.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Application\Routing\Router;
+use App\Infrastructure\Persistence\InMemoryBookStockRepository;
+use App\Infrastructure\Persistence\InMemoryFineRepository;
+use App\Application\Service\LoanService;
+use App\Application\Controller\LoanController;
+use App\Application\Controller\ReservationController;
+
+// 1. Initialize the Global State (The "Database")
+require_once __DIR__ . '/../data/data.php';
+
+// 2. Instantiate Repositories (The Anti-Corruption Layer)
+$bookStockRepo = new InMemoryBookStockRepository();
+$fineRepo = new InMemoryFineRepository();
+
+// 3. Instantiate Services (The Domain Logic)
+$loanService = new LoanService($bookStockRepo, $fineRepo, 1.50);
+
+// 4. Instantiate Controllers
+$loanController = new LoanController($loanService, $bookStockRepo);
+$reservationController = new ReservationController();
+
+// 5. Boot the Router and Dispatch
+$router = new Router();
+$router->registerController($loanController);
+$router->registerController($reservationController);
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($uri === '/books' && $method === 'GET') {
-    $controller = new BookController();
-    $controller->index();
-} elseif ($uri === '/loans' && $method === 'GET') {
-    $controller = new LoanController();
-    $controller->index();
-} elseif ($uri === '/loans/return' && $method === 'POST') {
-    $controller = new LoanController();
-    $controller->returnBook();
-} elseif ($uri === '/reservations' && $method === 'POST') {
-    $controller = new ReservationController();
-    $controller->reserve();
-} elseif ($uri === '/reservations' && $method === 'GET') {
-    $controller = new ReservationController();
-    $controller->status();
-} else {
-    http_response_code(404);
-    echo json_encode(['error' => 'Endpoint not found']);
-}
+$router->dispatch($method, $uri);
