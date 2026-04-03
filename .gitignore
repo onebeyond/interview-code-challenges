@@ -2,3 +2,4 @@
 /PHP/library-api-php/vendor
 /PHP/library-api-php/.phpunit.cache
 /PHP/library-api-php/.php-cs-fixer.cache
+/PHP/library-api-php/coverage.clover

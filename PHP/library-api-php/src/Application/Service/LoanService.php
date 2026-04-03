@@ -33,7 +33,7 @@ readonly class LoanService
             $daysLate = $interval->days;
 
             if ($bookStock->borrowerId === null) {
-                throw new \RuntimeException("Cannot process return: Book stock has no associated borrower.");
+                throw new \RuntimeException('Cannot process return: Book stock has no associated borrower.');
             }
 
             if ($daysLate > 0) {
